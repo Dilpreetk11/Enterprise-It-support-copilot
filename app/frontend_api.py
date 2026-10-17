@@ -34,6 +34,16 @@ app.add_middleware(
 app.include_router(router)
 
 
+@app.get("/")
+def root():
+    return {
+        "status": "online",
+        "service": settings.app_name,
+        "docs": "/docs",
+        "health": "/api/health",
+    }
+
+
 def require_admin(x_admin_key: str = Header(default="")) -> None:
     if settings.admin_api_key == "change-me" or not hmac.compare_digest(x_admin_key, settings.admin_api_key):
         raise HTTPException(status_code=401, detail="A configured admin key is required.")
