@@ -49,7 +49,7 @@ class ChatResponse(BaseModel):
 # ── Health endpoint ───────────────────────────────────────────────────────────
 
 @router.get("/health")
-def health():
+async def health():
     """Return service status. Does not expose secrets."""
     return {
         "status": "ok",

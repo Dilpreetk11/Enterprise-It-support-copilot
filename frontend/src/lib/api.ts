@@ -34,7 +34,7 @@ export async function request<T>(path: string, init: RequestInit = {}, timeout =
 }
 const adminHeaders = (key: string) => ({ "X-Admin-Key": key });
 export const api = {
-  health: () => request<Health>("/api/health", {}, 10_000),
+  health: () => request<Health>("/api/health", {}, 30_000),
   chat: (question: string) => request<ChatResponse>("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question }) }),
   ingest: (file: File, key: string) => {
     const body = new FormData(); body.append("file", file);
