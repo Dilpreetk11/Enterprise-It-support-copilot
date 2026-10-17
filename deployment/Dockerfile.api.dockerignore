@@ -1,0 +1,10 @@
+.git
+.env
+.env.*
+frontend
+uploads
+data/audit.db*
+**/__pycache__
+.venv
+venv
+.pytest_cache

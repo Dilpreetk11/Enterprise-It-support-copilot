@@ -1,0 +1,165 @@
+/* Enterprise dark theme. Layout and responsive behavior live in globals.css. */
+:root {
+  color-scheme: dark;
+  --ink: #ecf1fa;
+  --muted: #9aa8bf;
+  --line: #263145;
+  --purple: #a99aff;
+  --light: #252039;
+  --sidebar: #0d1320;
+}
+body { background: #101724; color: var(--ink); }
+::selection { background: #6552a6; color: #fff; }
+* { scrollbar-width: thin; scrollbar-color: #35415a transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline-color: #a89aff; }
+.sidebar { background: #0d1320; padding-top: 27px; }
+.brand { color: #f2f4fc; font-size: 21px; letter-spacing: -.7px; }
+.brand-symbol { background: #25213d; color: #b6a5ff; border: 1px solid #3c335d; }
+.brand-sub { color: #8f9eb6; font-size: 9px; letter-spacing: 1.5px; }
+.new-chat { background: #1b2333; border-color: #35415a; color: #e7edf9; padding: 13px; box-shadow: 0 3px 12px #0002; font-size: 13px; }
+.new-chat:hover { background: #242b40; border-color: #7c6bbb; }
+.new-chat span { color: #a99acb; }
+.nav-label, .section-heading { color: #8998b0; font-size: 10px; letter-spacing: 1.15px; }
+.nav-item { color: #a6b2c8; font-size: 13px; padding: 13px 12px; }
+.nav-item:hover { background: #192133; color: #e2e8f5; }
+.nav-item.active { background: #29233f; color: #c7b8ff; box-shadow: inset 2px 0 #a590ff; }
+.nav-dot { background: #b8a4ff; }
+.icon-button { color: #95a4be; }
+.icon-button:hover { background: #2b3048; color: #d8cdff; }
+.service { color: #c1ccdf; font-size: 12px; }
+.service small { color: #90a0b9; font-size: 10px; }
+.status-dot { background: #68768d; }
+.status-dot.ok, .connected .status-dot { background: #61d5ac; box-shadow: 0 0 0 3px #4dd1a015; }
+.service-note { color: #8594ac; font-size: 10px; }
+.metrics { gap: 20px 24px; }
+.metrics strong { color: #e3eaf7; font-size: 23px; font-weight: 600; letter-spacing: -.6px; }
+.metrics span { color: #94a2ba; font-size: 10px; }
+.trust-card { background: linear-gradient(135deg, #222038, #172032); border-color: #34304d; color: #b9a9f1; }
+.trust-card strong { color: #d4c8f4; font-size: 12px; }
+.trust-card p { color: #a59dbb; font-size: 11px; }
+.workspace-name { border-top: 1px solid #222d40; margin-top: 20px; color: #c5cfe0; font-size: 12px; }
+.workspace-name > span { background: #283247; color: #bdcbe3; }
+.workspace-name small { color: #8b9ab2; font-size: 10px; }
+.main { background: radial-gradient(ellipse at 52% 25%, #24223b55, transparent 60%), #101724; }
+.topbar { background: #101724e8; border-bottom-color: #252e41; }
+.breadcrumb { color: #8c9ab1; font-size: 12px; }
+.breadcrumb strong { color: #d1daea; }
+.slash { color: #54617a; }
+.connection { color: #b5c4d7; background: #182231; border-color: #2b3b50; font-size: 11px; padding: 8px 12px; }
+.connection.connected { background: #142b28; border-color: #285046; color: #96dfc2; }
+.connection.offline { color: #ecc298; background: #30251c; border-color: #63472d; }
+.connection.offline .status-dot { background: #e6b577; }
+.eyebrow { color: #92a1bb; font-size: 9px; letter-spacing: 1.8px; }
+.conversation-title h1 { color: #edf2fb; font-size: 25px; font-weight: 600; letter-spacing: -.9px; }
+.conversation-title p { color: #9caac0; font-size: 12px; }
+.private-label { color: #aaa3c6; font-size: 10px; padding: 7px 9px; background: #221f33; border: 1px solid #353049; border-radius: 6px; }
+.welcome-symbol { background: linear-gradient(140deg, #3a2b60, #24233d); border-color: #59417f; color: #c4abff; box-shadow: 0 12px 48px #7651c52b, inset 0 1px #b499e21c; }
+.welcome-symbol span { background: #101724; border-color: #ad94e0; }
+.welcome-kicker { color: #ac9cc9; font-size: 9px; }
+.welcome h2 { color: #f1effa; font-size: 35px; font-weight: 600; letter-spacing: -1.3px; }
+.welcome > p { color: #a0acc2; font-size: 13px; line-height: 1.8; }
+.suggestions button { background: linear-gradient(140deg, #1b2333, #171f2e); border-color: #30394f; box-shadow: 0 4px 16px #00000012; }
+.suggestions button:hover { background: #222a3f; border-color: #8270b8; box-shadow: 0 8px 25px #0002; }
+.suggestions strong { color: #e0e7f5; font-size: 13px; font-weight: 550; }
+.suggestions button > span:not(.suggestion-icon) { color: #9ba7bf; font-size: 11px; line-height: 1.6; }
+.suggestion-arrow { color: #7b88a2; }
+.suggestion-icon { border: 1px solid #ffffff0a; }
+.purple { background: #312447; color: #c7a5ff; }
+.amber { background: #3b3021; color: #efc27b; }
+.blue { background: #202e48; color: #8cb9ff; }
+.green { background: #1c3530; color: #79d6b2; }
+.retrieval-note { color: #5e6b83; }
+.retrieval-note > div { color: #96a4bc; font-size: 10px; }
+.retrieval-note > div svg { color: #a491cb; }
+.composer-wrap { background: #101724; }
+.followup-prompts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
+.followup-prompts button { display: flex; align-items: center; gap: 7px; min-height: 39px; padding: 8px 10px; border: 1px solid #3c3452; border-radius: 8px; background: #211f32; color: #cbbce9; text-align: left; font-size: 11px; line-height: 1.5; }
+.followup-prompts button svg { flex-shrink: 0; color: #b49adf; }
+.followup-prompts button:hover:not(:disabled) { background: #302840; border-color: #8a70b5; color: #e9ddff; }
+.composer { background: #192233; border-color: #3c4561; box-shadow: 0 8px 36px #0002, inset 0 1px #ffffff03; padding: 16px 18px 12px; border-radius: 14px; }
+.composer:focus-within { border-color: #9b85df; box-shadow: 0 0 0 3px #9478dc12, 0 8px 36px #0002; }
+.composer textarea { color: #e6edfa; font-size: 14px; line-height: 1.7; }
+.composer textarea::placeholder { color: #8998b2; }
+.attach-button { color: #acb6cc; font-size: 11px; }
+.attach-button:hover { color: #d7c6ff; }
+.input-hint { color: #8592aa; font-size: 9px; }
+.send-button { background: #a28be2; color: #161322; width: 34px; height: 34px; box-shadow: inset 0 1px #ffffff35; }
+.send-button:hover { background: #baa0fa; }
+.send-button:disabled { opacity: 1; color: #7f8ca5; background: #2d374d; box-shadow: none; }
+.composer-footnote { color: #8492aa; font-size: 9px; }
+.message-avatar { background: #302442; color: #c5a4ff; border: 1px solid #463157; }
+.user .message-avatar { background: #25324a; color: #afc5e9; border-color: #344661; }
+.message-heading { color: #e8edf7; font-size: 12px; }
+.source { background: #29233f; color: #c3ade9; font-size: 9px; }
+.source.web_search { background: #3a2e1d; color: #eac28a; }
+.source.insufficient_evidence { background: #3e2829; color: #efb1ae; }
+.prose { color: #c5cee0; font-size: 14px; line-height: 1.9; }
+.prose h1, .prose h2, .prose h3 { color: #e4eaf6; }
+.prose pre { background: #0c121e; border: 1px solid #263148; }
+.prose code { background: #25273b; color: #d9c4f6; font-size: 12px; }
+.prose a { color: #bfa8f1; }
+.prose blockquote { border-left-color: #7961ab; color: #b6bdd0; }
+.citations > a, .citations > span { border-color: #3c3452; background: #221f31; color: #c4b0e3; font-size: 10px; }
+.citations > a:hover { background: #302840; }
+.trace { border-top-color: #2a3145; color: #a8a1c2; font-size: 11px; }
+.trace summary span { color: #8c94ac; font-size: 10px; }
+.trace ol { border-left-color: #4e3e69; }
+.trace li { font-size: 11px; color: #b7adcd; }
+.trace li::before { background: #ac89d1; }
+.external-note { color: #e0bc8b; background: #2d261c; font-size: 11px; }
+.thinking { color: #c2a8e6; font-size: 12px; }
+.thinking-sub { color: #9b9bb6; font-size: 10px; }
+.connection-banner { background: #2b251d; border-color: #5e472b; color: #e0bd8c; font-size: 12px; line-height: 1.7; }
+.connection-banner strong { display: block; font-size: 13px; color: #f2d5ac; }
+.connection-banner p { margin: 6px 0; }
+.connection-banner code { display: block; overflow-wrap: anywhere; padding: 7px 9px; background: #181b22; color: #e1d4bd; border-radius: 5px; font-size: 10px; }
+.connection-banner small { display: block; color: #baa98e; margin-top: 6px; font-size: 10px; }
+.connection-banner button { color: #f2c68b; font-size: 11px; flex-shrink: 0; }
+.error-box { background: #382328; border: 1px solid #61383f; color: #f0b6bd; font-size: 12px; }
+.chat-error button { background: #462c33; border-color: #7b444f; color: #f6c8cb; }
+.admin-dialog { background: #171f2e; border-color: #3c425a; box-shadow: 0 24px 100px #0008; }
+.admin-dialog::backdrop { background: #050911b8; backdrop-filter: blur(6px); }
+.dialog-header h2 { color: #edf0fa; font-size: 23px; }
+.muted { color: #a3aec3; font-size: 12px; }
+.field-label { color: #c3cadd; font-size: 12px; }
+.admin-dialog input[type=password] { background: #101724; color: #edf1fa; border-color: #3c455b; }
+.field-note { color: #95a0b8; font-size: 10px; }
+.upload-zone { border-color: #675180; background: #201d30; color: #c8b0e3; }
+.upload-zone strong { color: #d4c5ea; font-size: 12px; }
+.upload-zone span, .upload-zone input { color: #a79bbd; font-size: 10px; }
+.primary-button { background: #a68bdf; color: #1a1428; border-color: #b69aea; font-size: 12px; font-weight: 600; }
+.primary-button:hover { background: #bfa2f2; }
+.secondary-button { background: #282237; color: #cfbbe8; border-color: #514161; font-size: 12px; }
+.sample-box { color: #b5a2cb; }
+.sample-box strong { color: #cfbfdf; font-size: 12px; }
+.sample-box p { color: #a99cbb; font-size: 11px; }
+.success-box { background: #15372b; color: #9ce3be; border: 1px solid #285b41; font-size: 12px; }
+.audit-entries time, .audit-entries span { color: #9b9db7; font-size: 10px; }
+.audit-entries strong { color: #d2c8e4; font-size: 12px; }
+@media (min-width: 1000px) and (max-height: 850px) {
+  .welcome { margin-top: 18px; }
+  .welcome h2 { font-size: 28px; }
+  .welcome > p { font-size: 12px; }
+  .suggestions strong { font-size: 12px; }
+  .suggestions button > span:not(.suggestion-icon) { font-size: 10px; }
+}
+@media (max-width: 1100px) {
+  .welcome { margin-top: 32px; }
+  .welcome h2 { font-size: 30px; }
+}
+@media (max-width: 760px) {
+  .followup-prompts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-bottom: 9px; }
+  .followup-prompts button { font-size: 10px; min-height: 35px; padding: 7px 9px; }
+  .welcome { margin: 27px 0 25px; }
+  .welcome h2 { font-size: 27px; }
+  .welcome > p { font-size: 12px; }
+  .conversation-title h1 { font-size: 23px; }
+  .composer textarea { font-size: 13px; }
+  .composer-footnote { font-size: 8px; }
+  .suggestions strong { font-size: 12px; }
+  .suggestions button > span:not(.suggestion-icon) { font-size: 10px; }
+  .suggestion-arrow { color: #8b7ca5; }
+  .trace summary span { font-size: 9px; }
+  .mobile-scrim { background: #050911b3; }
+  .connection-banner { flex-direction: column; align-items: flex-start; }
+}
