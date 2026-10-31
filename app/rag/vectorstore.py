@@ -9,7 +9,7 @@ import time
 from typing import List
 
 from langchain_core.documents import Document
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import FastEmbedEmbeddings
 
 try:
     from langchain_pinecone import PineconeVectorStore
@@ -52,23 +52,18 @@ def get_embedding_dimension(model_name: str | None = None) -> int:
     )
 
 
-def get_embeddings() -> HuggingFaceEmbeddings:
-    """Return a cached HuggingFace embeddings object."""
+def get_embeddings() -> FastEmbedEmbeddings:
+    """Return a cached ONNX embedding object with a small CPU/memory footprint."""
     global _embeddings
     if _embeddings is None:
         import os
-        try:
-            import torch
-            torch.set_num_threads(1)
-        except Exception:
-            pass
-        cache_folder = os.getenv("HF_HOME", "/app/model_cache")
-        logger.info("Loading local embedding model: %s (cache: %s)", settings.embedding_model, cache_folder)
-        _embeddings = HuggingFaceEmbeddings(
+        cache_folder = os.getenv("FASTEMBED_CACHE_DIR")
+        logger.info("Loading FastEmbed ONNX model: %s (cache: %s)", settings.embedding_model, cache_folder)
+        _embeddings = FastEmbedEmbeddings(
             model_name=settings.embedding_model,
-            cache_folder=cache_folder if os.path.exists(cache_folder) else None,
-            model_kwargs={"device": "cpu"},
-            encode_kwargs={"normalize_embeddings": True},
+            cache_dir=cache_folder,
+            threads=1,
+            batch_size=16,
         )
         logger.info("Embedding model loaded.")
     return _embeddings

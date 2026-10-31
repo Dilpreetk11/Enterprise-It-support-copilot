@@ -1,12 +1,12 @@
-# Opt-in image for the new frontend API. The existing Dockerfile is unchanged.
+# Docker image for the frontend API.
 FROM python:3.11-slim
 WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PORT=8080
-ENV AUDIT_DB_PATH=/var/data/audit.db UPLOAD_DIR=/var/data/uploads HF_HOME=/app/model_cache
+ENV AUDIT_DB_PATH=/var/data/audit.db UPLOAD_DIR=/var/data/uploads FASTEMBED_CACHE_DIR=/app/model_cache
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt \
     && mkdir -p /var/data/uploads /app/model_cache \
-    && python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2', cache_folder='/app/model_cache')"
+    && python -c "from fastembed import TextEmbedding; TextEmbedding(model_name='sentence-transformers/all-MiniLM-L6-v2', cache_dir='/app/model_cache', threads=1)"
 COPY app ./app
 COPY data/sample_kb ./data/sample_kb
 EXPOSE 8080

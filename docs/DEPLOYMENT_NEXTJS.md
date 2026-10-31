@@ -65,7 +65,7 @@ All values below except `NEXT_PUBLIC_API_BASE_URL` belong on the **Python servic
 | `AUDIT_DB_PATH` | Original: project `data/audit.db`; opt-in container: `/var/data/audit.db` |
 | `UPLOAD_DIR` | Original: project `uploads`; opt-in container: `/var/data/uploads` |
 | `SAMPLE_KB_DIR` | Project `data/sample_kb`; container `/app/data/sample_kb` |
-| `HF_HOME` | HuggingFace cache; opt-in container `/var/data/huggingface` |
+| `FASTEMBED_CACHE_DIR` | FastEmbed model cache; Docker image preloads `/app/model_cache` |
 | `TOP_K`, `MAX_RETRIES` | `4`, `1`; preserve existing tuning |
 | `CHUNK_SIZE`, `CHUNK_OVERLAP` | `900`, `120`; preserve existing tuning |
 | `APP_NAME`, `APP_ENV` | Existing app name; environment defaults `development` |
@@ -87,17 +87,17 @@ OpenAI credentials are not used by the inspected application. No provider keys b
 
 ## Separate Python hosting: Render Docker service example
 
-Use a persistent service capable of running Python 3.11, sentence-transformers/PyTorch on CPU, and long requests. Render with an attached persistent disk is one concrete option. Size memory from your measured model/workflow workload; a small serverless or ephemeral container can exhaust memory or lose local files. See [Render persistent disk documentation](https://render.com/docs/disks) and [Docker service documentation](https://render.com/docs/docker).
+The API uses FastEmbed/ONNX for the same 384-dimensional MiniLM model, with one inference thread and small batches to reduce memory use on Render Free. The Docker image preloads the model at build time. Free instances still have no persistent disk, so local SQLite audit history and uploaded files can be lost on restarts; Pinecone vectors remain in Pinecone. Use the bundled sample knowledge and Pinecone for persistent retrieval data.
 
 After approval to deploy:
 
 1. Create a new Render Web Service connected to the repository. Choose Docker. If GitHub has `app/` at its root, use the repository root as service root (the extra local download wrapper is not a Git directory).
 2. Set Dockerfile path to `deployment/Dockerfile.api`, with Docker build context at the repository root. This opt-in image copies only backend code, requirements, and sample documents; it does not copy `.env`, frontend dependencies, uploaded files, or audit DB. The original Dockerfile remains available for rollback.
 3. Attach a persistent disk mounted at `/var/data`. Choose a disk-backed plan; an ephemeral/free service does not preserve audit/upload files. Run **one instance and one worker** with the existing SQLite setup.
-4. Enter backend provider/admin secrets and settings from the table. Set `APP_ENV=production`, `AUDIT_DB_PATH=/var/data/audit.db`, `UPLOAD_DIR=/var/data/uploads`, `HF_HOME=/var/data/huggingface`. Do not paste a local Windows path into a Linux service.
+4. Enter backend provider/admin secrets and settings from the table. Set `APP_ENV=production`, `AUDIT_DB_PATH=/var/data/audit.db`, `UPLOAD_DIR=/var/data/uploads`, `FASTEMBED_CACHE_DIR=/app/model_cache`. Do not paste a local Windows path into a Linux service.
 5. Before accepting user traffic, restore the consistent DB backup and uploads into that disk, ensuring read/write permissions. Compare source and destination file checksums and audit row counts. If the new service created an empty DB during initial health startup, replace it only during maintenance with writes stopped. Do not merge/delete the source data automatically. Mount paths persist; files outside them do not.
 6. Set `CORS_ORIGINS` to a JSON list of exact approved browser origins, for example `["https://your-frontend.vercel.app"]`. Add a custom domain and stable preview origin explicitly when needed. Do not allow arbitrary preview wildcards. Restart the service after environment changes.
-7. The image starts `python -m uvicorn app.frontend_api:app --host 0.0.0.0 --port ${PORT:-8080} --workers 1`. Set the health-check path to `/api/health`. Allow outbound connections to Groq, Pinecone, Tavily, and HuggingFace for the first model download. Health verifies configuration flags, not remote provider connectivity or a writable audit DB.
+7. The image starts `python -m uvicorn app.frontend_api:app --host 0.0.0.0 --port ${PORT:-8080} --workers 1`. Set the health-check path to `/api/health`. Allow outbound connections to Groq, Pinecone, and Tavily. The model is downloaded at image build time; health verifies configuration flags, not remote provider connectivity or a writable audit DB.
 8. Inspect logs and persistent DB after a controlled acceptance request. Audit errors are logged but the existing service can still return chat success. Confirm a new audit row is actually present.
 9. Keep existing Streamlit available. Cut over users only after verifying KB responses, fallback, uploads, admin audit access, and persistence across a restart. Keep upload and sample-index tests on a dedicated test namespace or approved disposable document; production ingest is a real write. Establish provider-side quotas and your existing network access policy before making the unauthenticated chat route public. No new identity system is included in this UI migration.
 

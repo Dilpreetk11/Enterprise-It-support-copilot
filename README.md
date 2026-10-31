@@ -10,7 +10,7 @@ The new `frontend/` application uses Next.js App Router, TypeScript, Tailwind CS
 
 Run the opt-in API with `python -m uvicorn app.frontend_api:app --host 127.0.0.1 --port 8080 --reload`, then run `npm ci` and `npm run dev` inside `frontend/`. Configure `frontend/.env.local` from its `.env.example`. The original fallback remains `python -m streamlit run streamlit_app.py`.
 
-The implementation uses Groq and local HuggingFace embeddings; older OpenAI configuration and port 8000 examples below are historical. Use the inspected architecture and new deployment guide for the current code. Before live retrieval/ingestion, review the existing Pinecone dimension-mismatch deletion behavior documented there.
+The implementation uses Groq and local FastEmbed/ONNX embeddings; older OpenAI configuration and port 8000 examples below are historical. Use the inspected architecture and new deployment guide for the current code. Before live retrieval/ingestion, review the existing Pinecone dimension-mismatch deletion behavior documented there.
 
 An end-to-end **Forward Deployed Engineer (FDE) project** that turns a notebook-style Agentic RAG workflow into a deployable internal product using **LangGraph, FastAPI, Pinecone, Groq, Tavily, HTML, CSS, and JavaScript**.
 
@@ -198,7 +198,7 @@ The system therefore controls **what to do next** based on its current state.
 |---|---|---|
 | Agent workflow | LangGraph | Stateful routing and conditional decisions |
 | LLM | Groq | Routing, grading, rewriting, answer generation |
-| Embeddings | HuggingFace `all-MiniLM-L6-v2` | Local 384-dimensional embeddings |
+| Embeddings | FastEmbed/ONNX `all-MiniLM-L6-v2` | Local 384-dimensional embeddings with a smaller runtime footprint |
 | Vector DB | Pinecone | Private enterprise knowledge base |
 | External search | Tavily | Fallback when company KB is insufficient |
 | API | FastAPI | Backend and REST endpoints |
@@ -351,7 +351,7 @@ Load Documents
    ↓
 Chunk Text
    ↓
-HuggingFace Embeddings
+FastEmbed ONNX Embeddings
    ↓
 Pinecone Vector Database
 ```
